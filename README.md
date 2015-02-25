@@ -29,6 +29,8 @@ In your terminal type:
 
 # Hint
 
+Install the 'sox' and 'mpg123' for stats and mp3-playback.
+
 copy audiobrowse.bash to ~/bin and add ~/bin to your PATH like so:
 
     export PATH=$PATH:~/bin
