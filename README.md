@@ -1,11 +1,11 @@
 # audiobrowse.bash
 simple commandline audio preview of directories for sample-artists / musician and producers
 
+<center><img alt="" src="audiobrowse.bash.png"/></center>
+
 # Why
 
 Because deadsimple audition of directories with samples should be easy peasy like so:
-
-<center><img alt="" src="audiobrowse.bash.png"/></center>
 
 # Installation 
 
