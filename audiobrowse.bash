@@ -258,7 +258,11 @@ lscd_base () {
             directory)
                 movedir "$f";;
             *)
-                play_audio "$f" || $STRING_file_opener "$f";;
+                play_audio "$f" || {
+                  $STRING_file_opener "$f"
+                  redraw=1;
+                }
+                ;;
         esac
     }
 
@@ -320,8 +324,8 @@ lscd_base () {
                 movedir ..;;
             l|'ESC[C'|$'\0d')
                 openfile "$f"
-                redraw=1
-                reprint=1;;
+                #reprint=1;;
+                ;;
             f)
                 # Open a prompt for entering the filter
                 printf "\033[99999;1H"
