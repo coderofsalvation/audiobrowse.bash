@@ -2,6 +2,7 @@
 # Copyright (C) 2014  Roman Zimbelmann <hut@lepus.uberspace.de>
 # This software is distributed under the terms of the GNU GPL version 3.
 
+players=()
 LSCD_VERSION=0.1
 
 f () {
@@ -68,6 +69,8 @@ lscd_base () {
         # Place the cursor at a sane position
         [ -z "$total" ] && total="$(listfiles | wc -l)"
         printf "\033[$((total - index + offset));1H"
+      
+        kill_audio
     }
 
     # Determine the dimensions of the screen
@@ -260,7 +263,7 @@ lscd_base () {
     }
 
     # The program loop that handles the input and draws the interface
-    echo "use '.' and arrow keys to navigate and press enter to preview audio" 
+    echo -e "use '.' and arrow keys for directory navigation\npress enter to preview audio\n\n(press key to start or 'q' to quit).." 
     while read -sN1 input; do
         # Get the input
         #input="$(getc)"
@@ -313,8 +316,6 @@ lscd_base () {
                 esac;;
             G)
                 move 9999999999;;
-            ?)
-                info_audio "$f";;
             \.|h|'ESC[D')
                 movedir ..;;
             l|'ESC[C'|$'\0d')
@@ -351,8 +352,10 @@ lscd_base () {
             $'\x0c') # CTRL+L
                 on_resize;;
             q)
-                on_exit
-                break;;
+                on_exit;
+                exit 0;;
+            ?)
+                info_audio "$f";;
         esac
         # Redraw the interface if requested
         test -n "$redraw" && draw
@@ -368,6 +371,10 @@ info_audio(){
   sox "$1" -n stat 
 }
 
+kill_audio(){  
+  for p in ${players[@]}; do killall $(basename $p) &>/dev/null; done 
+}
+
 play_audio(){
   file="$1"
   [[ ! "$file" =~ \.mp3$|\.wav$|\.aiff$|\.iff$|\.ogg$|\.flac$ ]] && return 1
@@ -379,6 +386,7 @@ play_audio(){
     players+=("$(which paplay)")
     players+=("$(which aplay)");
   }
+  kill_audio
   player="${players[0]}"
   $player "$file" &>/dev/null &
   return 0
