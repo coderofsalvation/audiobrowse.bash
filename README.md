@@ -17,8 +17,11 @@ In your terminal type:
 
 # Features
 
-* tries to play .wav .mp3 .aiff .flac .ogg and such (if playback tools are available)
-* easy navigation using pagedown/pageup + arrowkeys
+* pressing enter tries to play the audio (when playback utils are available)
+* easy directory navigation using arrowkeys + '.' (=directory up)
+* pressing '?' will give statistics on the current file
+
+<img alt="" src="audiobrowse.bash.stats.png"/>
 
 # Dependancies
 

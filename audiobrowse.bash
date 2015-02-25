@@ -260,7 +260,7 @@ lscd_base () {
     }
 
     # The program loop that handles the input and draws the interface
-    echo "use arrow keys and press enter to preview audio" 
+    echo "use '.' and arrow keys to navigate and press enter to preview audio" 
     while read -sN1 input; do
         # Get the input
         #input="$(getc)"
@@ -313,7 +313,9 @@ lscd_base () {
                 esac;;
             G)
                 move 9999999999;;
-            h|'ESC[D')
+            ?)
+                info_audio "$f";;
+            \.|h|'ESC[D')
                 movedir ..;;
             l|'ESC[C'|$'\0d')
                 openfile "$f"
@@ -358,6 +360,14 @@ lscd_base () {
 
 }
 
+info_audio(){
+  which sox &>/dev/null || return 0
+  clear
+  echo "$(pwd)/$1"
+  file "$1"
+  sox "$1" -n stat 
+}
+
 play_audio(){
   file="$1"
   [[ ! "$file" =~ \.mp3$|\.wav$|\.aiff$|\.iff$|\.ogg$|\.flac$ ]] && return 1
@@ -370,7 +380,7 @@ play_audio(){
     players+=("$(which aplay)");
   }
   player="${players[0]}"
-  $player "$file"
+  $player "$file" &>/dev/null &
   return 0
 }
 
