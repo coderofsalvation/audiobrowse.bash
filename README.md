@@ -9,14 +9,28 @@ Because simple audition of directories should be possible using easy peasy arrow
 
 # Installation 
 
-      wget 
-      chmod 755 audiobrowse.bash
-      cd /folder/with/samples
-      audiobrowse.bash
+In your terminal type:
+
+     wget "https://github.com/coderofsalvation/audiobrowse.bash/raw/master/audiobrowse.bash"
+     chmod 755 audiobrowse.bash
+     ./audiobrowse.bash
+
+# Features
+
+* tries to play .wav .mp3 .aiff .flac .ogg and such (if playback tools are available)
+* easy navigation using pagedown/pageup + arrowkeys
 
 # Dependancies
 
 * bash (so any *NIX system)
+
+# Hint
+
+copy audiobrowse.bash to ~/bin and add ~/bin to your PATH like so:
+
+    export PATH=$PATH:~/bin
+
+This way you can type 'audiob<TAB>' from any directory
 
 # Credits 
 
