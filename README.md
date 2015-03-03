@@ -19,9 +19,9 @@ In your terminal type:
 
 * pressing enter tries to play the audio (when playback utils are available)
 * easy directory navigation using arrowkeys + '.' (=directory up)
-* pressing '?' will give statistics on the current file
 * pressing 'c' will copy selected file to particular dir (prompted once)
 * pressing 'f' will filter results
+* pressing '?' will give statistics on the current file like so:
 
 <img alt="" src="audiobrowse.bash.stats.png"/>
 
