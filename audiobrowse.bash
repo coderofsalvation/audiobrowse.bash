@@ -3,6 +3,7 @@
 # This software is distributed under the terms of the GNU GPL version 3.
 
 players=()
+copydir=""
 LSCD_VERSION=0.1
 
 f () {
@@ -267,7 +268,12 @@ lscd_base () {
     }
 
     # The program loop that handles the input and draws the interface
-    echo -e "use '.' and arrow keys for directory navigation\npress enter to preview audio\n\n(press key to start or 'q' to quit).." 
+    echo -e "Audiobrowse v1.0 keys:\n\n"
+    printf "  %-20s %s\n" "'.' + arrow keys" "directory navigation"
+    printf "  %-20s %s\n" "<enter>" "preview audio"
+    printf "  %-20s %s\n" "'f'" "filter results"
+    printf "  %-20s %s\n" "'q'" "quit"
+    echo -e "\npress key to start.." 
     while read -sN1 input; do
         # Get the input
         #input="$(getc)"
@@ -358,8 +364,24 @@ lscd_base () {
             q)
                 on_exit;
                 exit 0;;
+            c)
+                reprint=1
+                redraw=1
+                [[ "${#copydir}" == 0 ]] && {
+                  printf "\033[99999;1H"
+                  stty $stty_orig
+                  read -p "please specify dir to copy files to: " copydir
+                  stty -echo
+                  [[ ! -d "$copydir" ]] && { mkdir "$copydir" || break; }
+                }
+                cp "$f" "$copydir"/.
+                ;;
             ?)
-                info_audio "$f";;
+                info_audio "$f"
+                echo ""; read -p "press a key.." p
+                reprint=1
+                redraw=1
+                ;;
         esac
         # Redraw the interface if requested
         test -n "$redraw" && draw
