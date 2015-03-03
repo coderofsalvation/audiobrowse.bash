@@ -268,7 +268,7 @@ lscd_base () {
     }
 
     # The program loop that handles the input and draws the interface
-    echo -e "Audiobrowse v1.0 keys:\n\n"
+    echo -e "Audiobrowse v1.0 keys:\n"
     printf "  %-20s %s\n" "'.' + arrow keys" "directory navigation"
     printf "  %-20s %s\n" "<enter>" "preview audio"
     printf "  %-20s %s\n" "'f'" "filter results"
@@ -336,7 +336,7 @@ lscd_base () {
                 # Open a prompt for entering the filter
                 printf "\033[99999;1H"
                 stty $stty_orig
-                read STRING_filter
+                read -p "filter on: " STRING_filter
                 stty -echo
                 redraw=1
                 reprint=1
