@@ -37,7 +37,7 @@ copy audiobrowse.bash to ~/bin and add ~/bin to your PATH like so:
 
     export PATH=$PATH:~/bin
 
-This way you can type 'audiob<TAB>' from any directory
+This way you can type 'audiob\<TAB\>' from any directory
 
 # Credits 
 
