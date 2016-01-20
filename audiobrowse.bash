@@ -398,7 +398,7 @@ info_audio(){
 }
 
 kill_audio(){  
-  for p in ${players[@]}; do killall $(basename $p) &>/dev/null; done 
+  for p in ${players[@]}; do killall -s SIGINT $(basename $p) &>/dev/null; done 
 }
 
 play_audio(){
