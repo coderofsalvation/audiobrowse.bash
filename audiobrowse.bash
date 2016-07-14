@@ -406,11 +406,15 @@ play_audio(){
   [[ ! "$file" =~ \.mp3$|\.wav$|\.aiff$|\.iff$|\.ogg$|\.flac$ ]] && return 1
   players=()
   [[ "$file" =~ \.ogg$ ]] && players+=("$(which ogg123)")
-  [[ "$file" =~ \.mp3$ ]] && players+=("$(which mpg123)")
+  [[ "$file" =~ \.mp3$ ]] && {
+    which mplay  &>/dev/null && players+=("$(which mplay)")
+    which mpg123 &>/dev/null && players+=("$(which mpg123)")
+  }
   [[ "$file" =~ \.wav$|\.aiff$|\.iff$ ]] && {
-    players+=("$(which play)")
-    players+=("$(which paplay)")
-    players+=("$(which aplay)");
+    which play   &>/dev/null && players+=("$(which play)")
+    which mlay   &>/dev/null && players+=("$(which mplay)")
+    which paplay &>/dev/null && players+=("$(which paplay)")
+    which aplay  &>/dev/null && players+=("$(which aplay)");
   }
   kill_audio
   player="${players[0]}"
