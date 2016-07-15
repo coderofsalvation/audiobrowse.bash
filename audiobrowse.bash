@@ -4,6 +4,7 @@
 
 players=()
 copydir=""
+movedir=""
 LSCD_VERSION=0.1
 
 f () {
@@ -272,6 +273,8 @@ lscd_base () {
     printf "  %-20s %s\n" "'.' + arrow keys" "directory navigation"
     printf "  %-20s %s\n" "<enter>" "preview audio"
     printf "  %-20s %s\n" "'f'" "filter results"
+    printf "  %-20s %s\n" "'m'" "move file to <dir>"
+    printf "  %-20s %s\n" "'c'" "copy file to <dir>"
     printf "  %-20s %s\n" "'q'" "quit"
     echo -e "\npress key to start.." 
     while read -sN1 input; do
@@ -364,6 +367,18 @@ lscd_base () {
             q)
                 on_exit;
                 exit 0;;
+            m)
+                reprint=1
+                redraw=1
+                [[ "${#movedir}" == 0 ]] && {
+                  printf "\033[99999;1H"
+                  stty $stty_orig
+                  read -p "please specify dir to move files to: " movedir
+                  stty -echo
+                  [[ ! -d "$movedir" ]] && { mkdir "$movedir" || break; }
+                }
+                mv "$f" "$movedir"/.
+                ;;
             c)
                 reprint=1
                 redraw=1
@@ -407,18 +422,18 @@ play_audio(){
   players=()
   [[ "$file" =~ \.ogg$ ]] && players+=("$(which ogg123)")
   [[ "$file" =~ \.mp3$ ]] && {
-    which mplay  &>/dev/null && players+=("$(which mplay)")
+    which mplayer  &>/dev/null && players+=("$(which mplayer) -novideo")
     which mpg123 &>/dev/null && players+=("$(which mpg123)")
   }
   [[ "$file" =~ \.wav$|\.aiff$|\.iff$ ]] && {
     which play   &>/dev/null && players+=("$(which play)")
-    which mlay   &>/dev/null && players+=("$(which mplay)")
+    which mplayer   &>/dev/null && players+=("$(which mplayer) -novideo")
     which paplay &>/dev/null && players+=("$(which paplay)")
     which aplay  &>/dev/null && players+=("$(which aplay)");
   }
   kill_audio
   player="${players[0]}"
-  $player "$file" &>/dev/null &
+  ${player} "$file" &>/dev/null &
   return 0
 }
 
