@@ -291,9 +291,9 @@ lscd_base () {
         # Handle the input
         case "$input" in
             j|$'\e[A'|$'\e0A')
-                move -1;;
-            k|$'\e[B'|$'\e0B')
                 move 1;;
+            k|$'\e[B'|$'\e0B')
+                move -1;;
             $'\e[6'|$'\e[C'|$'\eOC')
                 move 10;;
             $'\e[5'|$'\e[D'|$'\eOD')
